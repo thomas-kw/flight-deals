@@ -1,24 +1,30 @@
 import requests
+from pprint import pprint
 
-sheet_endpoint = "https://api.sheety.co/39441e5d38b8d71a96bbb5417bbbeb42/flightDeals/prices/"
+SHEETY_PRICES_ENDPOINT = "https://api.sheety.co/39441e5d38b8d71a96bbb5417bbbeb42/flightDeals/prices"
 
 
 class DataManager:
     # This class is responsible for talking to the Google Sheet.
-    def __init__(self, sheet):
-        self.sheet = sheet
+    def __init__(self):
+        self.destination_data = {}
 
-    def add_iata(self):
-        for id in self.sheet["prices"]:
-            id_number = str(id["id"])
-            print(id_number)
-            print(sheet_endpoint + id_number)
+    def get_destination_data(self):
+        response = requests.get(url=SHEETY_PRICES_ENDPOINT)
+        data = response.json()
+        self.destination_data = data["prices"]
+        pprint(data)
+        return self.destination_data
 
-            sheet_input = {
+    def update_destination_codes(self):
+        for city in self.destination_data:
+            new_data = {
                 "price": {
-                    "iata code": "Testing"
+                    "iataCode": city["iataCode"]
                 }
             }
-
-            sheet_put = requests.put(url=sheet_endpoint + id_number, json=sheet_input)
-            print(sheet_put.text)
+            response = requests.put(
+                url=f"{SHEETY_PRICES_ENDPOINT}/{city['id']}",
+                json=new_data
+            )
+            print(response.text)
