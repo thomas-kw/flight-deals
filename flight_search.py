@@ -18,10 +18,6 @@ class FlightSearch:
                 headers=headers
             )
 
-        city_data = response.json()
-        code = city_data["locations"][0]["code"]
+        results = response.json()
+        code = results["locations"][0]["code"]
         return code
-
-flight_search = FlightSearch()
-list_1 = flight_search.get_destination_code(city_list)
-print(list_1)

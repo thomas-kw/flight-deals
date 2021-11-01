@@ -13,7 +13,6 @@ class DataManager:
         response = requests.get(url=SHEETY_PRICES_ENDPOINT)
         data = response.json()
         self.destination_data = data["prices"]
-        pprint(data)
         return self.destination_data
 
     def update_destination_codes(self):
@@ -27,4 +26,3 @@ class DataManager:
                 url=f"{SHEETY_PRICES_ENDPOINT}/{city['id']}",
                 json=new_data
             )
-            print(response.text)
