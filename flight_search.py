@@ -11,17 +11,16 @@ headers = {
 class FlightSearch:
     # This class is responsible for talking to the Flight Search API.
 
-    def get_destination_code(self, cities):
-        city_codes = []
-        for city in cities:
-            response = requests.get(
+    def get_destination_code(self, city):
+        response = requests.get(
                 url=f"{TEQUILA_ENDPOINT}locations/query",
                 params={"term": city},
                 headers=headers
             )
-            city_data = response.json()
-            city_codes.append(city_data["locations"][0]["code"])
-        return city_codes
+
+        city_data = response.json()
+        code = city_data["locations"][0]["code"]
+        return code
 
 
 city_list = ["Paris", "London", "Tokyo"]
