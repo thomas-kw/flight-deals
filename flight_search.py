@@ -22,9 +22,6 @@ class FlightSearch:
         code = city_data["locations"][0]["code"]
         return code
 
-
-city_list = ["Paris", "London", "Tokyo"]
-
 flight_search = FlightSearch()
 list_1 = flight_search.get_destination_code(city_list)
 print(list_1)
