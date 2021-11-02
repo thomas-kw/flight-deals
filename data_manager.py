@@ -1,5 +1,4 @@
 import requests
-from pprint import pprint
 
 SHEETY_PRICES_ENDPOINT = "https://api.sheety.co/39441e5d38b8d71a96bbb5417bbbeb42/flightDeals/prices"
 
