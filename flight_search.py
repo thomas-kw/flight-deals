@@ -45,8 +45,11 @@ class FlightSearch:
             headers=headers
         )
 
-        data = response.json()["data"][0]
-        # pprint(data)
+        try:
+            data = response.json()["data"][0]
+
+        except IndexError:
+            print(f"No flights found for {destination_city_code}.")
 
         flight_data = FlightData(
             price=data["price"],

@@ -26,3 +26,8 @@ for row in sheet_data:
         from_time=tomorrow,
         to_time=six_months_time
     )
+
+    print(flight.price)
+    print(flight.destination_airport)
+    print(flight.out_date)
+    print(flight.return_date)
