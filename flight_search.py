@@ -1,6 +1,5 @@
 import requests
 from flight_data import FlightData
-from pprint import pprint
 
 TEQUILA_ENDPOINT = "http://tequila-api.kiwi.com/"
 TEQUILA_API_KEY = "ewavzYF5kS0frIaQMDl9d6D0IpNm-d3l"
@@ -50,6 +49,7 @@ class FlightSearch:
 
         except IndexError:
             print(f"No flights found for {destination_city_code}.")
+            return None
 
         flight_data = FlightData(
             price=data["price"],
