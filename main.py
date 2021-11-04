@@ -9,7 +9,8 @@ data_manager = DataManager()
 sheet_data = data_manager.get_destination_data()
 flight_search = FlightSearch()
 
-ORIGIN_CITY_IATA = "LON"
+ORIGIN_CITY_IATA = "SEL"
+CURRENCY = "KRW"
 
 if sheet_data[0]["iataCode"] == "":
     for row in sheet_data:
@@ -31,5 +32,5 @@ for row in sheet_data:
     if flight is not None and flight.price < row["lowestPrice"]:
         notification = NotificationManager()
         notification.send_message(
-            message=f"Low price alert! Only €{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+            message=f"Low price alert! Only {CURRENCY}{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
         )

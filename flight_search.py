@@ -30,7 +30,7 @@ class FlightSearch:
             "fly_to": destination_city_code,
             "date_from": from_time,
             "date_to": to_time,
-            "curr": "GBP",
+            "curr": "KRW",
             "flight_type": "round",
             "one_for_city": 1,
             "nights_in_dst_from": 7,
