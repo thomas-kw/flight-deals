@@ -27,18 +27,9 @@ for row in sheet_data:
         from_time=tomorrow,
         to_time=six_months_time
     )
-    # try:
-    #     print(flight.price)
-    #     print(flight.out_date)
-    #     print(flight.return_date)
-    #     print(flight.origin_airport)
-    #     print(flight.destination_airport)
-    #
-    # except AttributeError:
-    #     continue
 
-    try:
-        notification = NotificationManager(flight.price, flight.destination_airport)
-        notification.send_message()
-    except AttributeError:
-        continue
+    if flight is not None and flight.price < row["lowestPrice"]:
+        notification = NotificationManager()
+        notification.send_message(
+            message=f"Low price alert! Only €{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+        )

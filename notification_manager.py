@@ -1,23 +1,23 @@
 from twilio.rest import Client
+import os
+
 
 account_sid = "AC4bc9d655663dcdcdbee672f007fc79d9"
-auth_token = "76cc01232de49544b5f41c170fe90cc2"
-
-client = Client(account_sid, auth_token)
+auth_token = os.environ["API_KEY"]
+twilio_virtual_number = "+13195058865"
+twilio_verified_number = "+821046321383"
 
 
 class NotificationManager:
     # This class is responsible for sending notifications with the deal flight details.
 
-    def __init__(self, price, destination):
-        self.price = price
-        self.destination = destination
+    def __init__(self,):
+        self.client = Client(account_sid, auth_token)
 
-    def send_message(self):
-        if self.price < 30:
-            message = client.messages.create(
-                body=f"There is a good deal for a flight! Price: {self.price}. Destination: {self.destination}",
-                from_="+13195058865",
-                to='+821046321383'
-            )
-            print(message.sid)
+    def send_message(self, message):
+        message = self.client.messages.create(
+            body=message,
+            from_=twilio_virtual_number,
+            to=twilio_verified_number
+        )
+        print(message.sid)
