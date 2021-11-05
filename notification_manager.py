@@ -2,10 +2,10 @@ from twilio.rest import Client
 import os
 
 
-account_sid = "AC4bc9d655663dcdcdbee672f007fc79d9"
+account_sid = os.environ["ACCOUNT_SID"]
 auth_token = os.environ["API_KEY"]
-twilio_virtual_number = "+13195058865"
-twilio_verified_number = "+821046321383"
+twilio_virtual_number = os.environ["TWILIO_NUMBER"]
+twilio_verified_number = os.environ["PERSONAL_NUMBER"]
 
 
 class NotificationManager:
