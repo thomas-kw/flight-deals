@@ -1,11 +1,11 @@
 import requests
 import os
 from flight_data import FlightData
-# import datetime as dt
+import datetime as dt
+from pprint import pprint
 
 TEQUILA_ENDPOINT = "http://tequila-api.kiwi.com/"
 TEQUILA_API_KEY = os.environ["TEQUILA_KEY"]
-# TEQUILA_API_KEY = "ewavzYF5kS0frIaQMDl9d6D0IpNm-d3l"
 
 headers = {
     "apikey": TEQUILA_API_KEY
@@ -51,12 +51,20 @@ class FlightSearch:
 
         try:
             data = response.json()["data"][0]
+            pprint(data)
             print(f"{destination_city_code} {data['price']}")
 
         except IndexError:
             print(f"No flights found for {destination_city_code} with 0 stopovers, searching with 1 stopover:")
 
             try:
+                ''' ISSUE: THIS MAX STOPOVER NUMBER IS THE NUMBER OF STOP OVERS OVER THE ENTIRE ROUND TRIP, MEANING
+                  1 MAX STOP OVER IS A ROUND TRIP WITH 3 SEPARATE FLIGHTS, AND 2 MAX STOP OVER IS 4 SEPARATE FLIGHTS
+                  
+                  BUG: IF 3 SEPARATE FLIGHTS, THE VIA CITY MAY BE WRONG, IF THE FIRST FLIGHT IS NON STOP
+                  AND THE RETURN FLIGHT HAS A STOPOVER, THIS NEEDS FIXING BY SEPARATING OUT THE DIFFERENT INTERMEDIARY 
+                  CITIES.
+                  '''
                 query["max_stopovers"] = 1
                 response = requests.get(
                     url=f"{TEQUILA_ENDPOINT}v2/search",
@@ -65,6 +73,7 @@ class FlightSearch:
                 )
 
                 data = response.json()["data"][0]
+                pprint(data)
                 print(f"{destination_city_code} {data['price']} with 1 stopover in {data['route'][0]['cityTo']}")
 
             except IndexError:
@@ -98,9 +107,10 @@ class FlightSearch:
             return flight_data
 
 
-# tomorrow = (dt.datetime.now() + dt.timedelta(days=1)).strftime("%d/%m/%Y")
-# six_months_time = (dt.datetime.now() + dt.timedelta(weeks=26)).strftime("%d/%m/%Y")
-#
-# flight = FlightSearch()
-# result = (flight.check_flights("LON", "PAR", tomorrow, six_months_time))
-# print(result.via_city)
+### TEST ####
+tomorrow = (dt.datetime.now() + dt.timedelta(days=1)).strftime("%d/%m/%Y")
+six_months_time = (dt.datetime.now() + dt.timedelta(weeks=26)).strftime("%d/%m/%Y")
+
+flight = FlightSearch()
+result = (flight.check_flights("LON", "SFO", tomorrow, six_months_time))
+print(result.via_city)
